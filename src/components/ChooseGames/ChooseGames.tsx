@@ -48,11 +48,11 @@ const ChooseGames: FC<ChooseGamesProps> = ({ setTotalSelectedGames }) => {
   const gamesSortFunc = useMemo(() => (a: Game, b: Game) => {
     switch (sort) {
       case 'rank': return a.stats.rank - b.stats.rank || a.name.localeCompare(b.name);
-      case 'rating': return (b.stats.rating || 0) - (a.stats.rating || 0);
+      case 'rating': return (b.stats.rating || 0) - (a.stats.rating || 0) || a.name.localeCompare(b.name);
       case 'name': return a.name.localeCompare(b.name);
-      case 'number of plays': return b.num_plays - a.num_plays;
-      case 'selected': return (b.selected ? 1 : 0) - (a.selected ? 1 : 0) || a.name.localeCompare(b.name);
-      case 'year published': return +b.year_published - +a.year_published;
+      case 'number of plays': return b.num_plays - a.num_plays || (b.stats.rating || 0) - (a.stats.rating || 0) || a.name.localeCompare(b.name);
+      case 'selected': return (b.selected ? 1 : 0) - (a.selected ? 1 : 0) || (b.stats.rating || 0) - (a.stats.rating || 0) || a.name.localeCompare(b.name);
+      case 'year published': return +b.year_published - +a.year_published || (b.stats.rating || 0) - (a.stats.rating || 0) || a.name.localeCompare(b.name);
       default: return 0;
     }
   }, [sort]);

@@ -22,32 +22,28 @@ const ChooseGamesOptions: FC<ChooseGamesOptionsProps> = ({ setSort, setFilter, s
     navigate(`/choose/${username}/1`);
   }
 
+  const updateQuery = (e: FormEvent) => {
+    e.preventDefault();
+    setQuery(queryRef.current?.value || '');
+    resetPage();
+  }
+
   const clearQuery = () => {
     setQuery('');
     resetPage();
   }
 
-  const updateQuery = (e: FormEvent) => {
-    e.preventDefault();
-    if (queryRef.current?.value) {
-      setQuery(queryRef.current.value);
-      resetPage();
-    } else {
-      clearQuery();
-    }
-  }
-
-  const updateFilter = (s: string) => {
-    setFilter(s);
+  const update = (fn: Function, s: string) => {
+    fn(s);
     resetPage();
   }
 
   return <div className={styles.chooseGameOptions}>
     <Icon name='barsSort' className={styles.sortIcon} />
-    <SpecialSelect setter={setSort} options={sortList} />
+    <SpecialSelect setter={(s) => update(setSort, s)} options={sortList} />
     &emsp;
     <Icon name='barsFilter' className={styles.filterIcon} />
-    <SpecialSelect setter={(s) => updateFilter(s)} options={filterList} />
+    <SpecialSelect setter={(s) => update(setFilter, s)} options={filterList} />
     {/* &emsp;
     <SpecialCheckbox setter={setExclude} labelText="Exclude Expansions"/> */}
     &emsp;
