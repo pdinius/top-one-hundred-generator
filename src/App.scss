@@ -1,6 +1,9 @@
 .App {
   position: relative;
-  padding: 1rem;
+  padding-top: 4.2rem;
   display: flex;
   justify-content: center;
+  align-content: flex-start;
+  flex-grow: 1;
+  gap: 1rem;
 }

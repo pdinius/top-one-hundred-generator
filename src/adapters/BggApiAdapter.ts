@@ -1,77 +1,76 @@
-import axios from 'axios';
-import dayjs from 'dayjs';
-import convert from 'xml-js';
-import { timeout } from '../utils';
-import { Cache, Status, Game } from '../interfaces/BggTypes';
+import { Game, Status, Stats } from '../interfaces/BggTypes';
+import bggApiToJson from 'bgg-api-to-json';
 
-const cache: Cache = {};
+interface AdapterOptions {
+    forceUpdate?: boolean;
+    abortSignal?: AbortSignal;
+}
 
-export const collection = (username: string, onlyOwned: boolean = false, includeStats: boolean = true): Promise<Array<any>> => {
-    return new Promise(async (res, rej) => {
-        // if (username in cache) res(cache[username]);
-        try {
-            let uri = `https://api.geekdo.com/xmlapi2/collection?username=${username}`;
-            if (onlyOwned) uri += '&excludesubtype=boardgameexpansion';
-            if (includeStats) uri += '&stats=1';
-            let response = await axios.get(uri);
+export const collection = async (username: string, options: AdapterOptions = { forceUpdate: false }): Promise<Array<Game>> => {
+    const {
+        forceUpdate,
+        abortSignal
+    } = options;
 
-            while (response.status === 202) {
-                await timeout(5000);
-                response = await axios.get(uri);
-            }
+    const cached = localStorage.getItem(username);
 
-            if (response.status !== 200) {
-                throw Error(`Failed with a status code of ${response.status}.`)
-            }
+    if (!forceUpdate && cached) {
+        console.log('Loading local storage version...');
+        return JSON.parse(cached);
+    }
 
-            let jsonData = JSON.parse(convert.xml2json(response.data, { compact: true }));
+    try {
+        const currentGames = localStorage.getItem(username);
+        let selectedItems: { [key: string]: boolean } = {};
+        if (currentGames) JSON.parse(currentGames).forEach((g: Game) => selectedItems[g.name] = g.selected);
+        let data = await bggApiToJson.collection({ username, stats: true, exclude_subtype: 'boardgameexpansion' }, abortSignal);
+        let res = data.items.map(v => {
+            const { status, stats } = v;
 
-            cache[username] = jsonData.items.item.map((g: any) => {
-                try {
-                    let res: Game = {
-                        name: g.name?._text,
-                        year_published: g.yearpublished?._text,
-                        image: g.image?._text,
-                        thumbnail: g.thumbnail?._text,
-                        num_plays: +g.numplays._text
-                    }
+            const gameStatus = {
+                own: status.own,
+                prevowned: status.prev_own,
+                fortrade: status.for_trade,
+                want: status.want,
+                wanttoplay: status.want_to_play,
+                wanttobuy: status.want_to_buy,
+                wishlist: status.wishlist,
+                preordered: status.preordered,
+                last_modified: new Date(status.last_modified)
+            };
 
-                    // status
-                    let status = {} as { [key: string]: any };
-                    for (let entry of Object.entries(g.status._attributes)) {
-                        let [key, val] = entry as [string, string];
-                        if (val === '0' || val === '1') {
-                            status[key] = val === '1' ? true : false;
-                        } else if (dayjs(key).isValid()) {
-                            status.last_modified = dayjs(key);
-                        } else {
-                            status[key] = val;
-                        }
-                    }
-                    res.status = status as Status;
+            const { rank } = stats!;
 
-                    // stats
-                    if ('stats' in g) {
-                        res.stats = {
-                            min_players: g.stats._attributes.minplayers,
-                            max_players: g.stats._attributes.maxplayers,
-                            min_play_time: g.stats._attributes.minplaytime,
-                            max_play_time: g.stats._attributes.maxplaytime,
-                            playing_time: g.stats._attributes.playingtime,
-                            rank: g.stats.rating.ranks.rank.find((r: any) => r._attributes.name === 'boardgame').value,
-                            rating: g.stats.rating.average.value
-                        };
-                    }
+            const gameStats = {
+                min_players: stats!.min_players,
+                max_players: stats!.max_players,
+                min_play_time: stats!.min_play_time,
+                max_play_time: stats!.max_play_time,
+                playing_time: stats!.playing_time,
+                rating: v.rating!,
+                rank: rank === -1 ? 99999 : rank,
+            };
 
-                    return res
-                } catch (e) {
-                    return g.name;
-                }
-            });
+            const gameItem: Game = {
+                name: v.name,
+                year_published: v.year_published || '',
+                image: v.image || '',
+                thumbnail: v.thumbnail || '',
+                num_plays: v.num_plays || 0,
+                played: (v.num_plays && Number(v.num_plays) > 0) || false,
+                selected: selectedItems[v.name] || false,
+                status: gameStatus,
+                stats: gameStats
+            };
 
-            res(cache[username]);
-        } catch (e) {
-            rej(e);
-        }
-    })
+            return gameItem;
+        }).filter((g1,i,a) => i === a.findIndex(g2 => g1.name === g2.name));
+
+        localStorage.setItem(username, JSON.stringify(res));
+
+        return res;
+    } catch (e) {
+        console.error(e);
+        return [];
+    }
 }

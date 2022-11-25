@@ -1,0 +1,19 @@
+.chooseGameContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+}
+
+.gameCardsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    flex-grow: 1;
+    align-content: flex-start;
+    padding: 2rem 1rem;
+}
+
+.semiTransparent {
+    opacity: .4;
+}

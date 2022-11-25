@@ -1,0 +1,48 @@
+.formContainer {
+    --search-icon-width: 1rem;
+    --icon-margin: .75rem;
+    position: relative;
+}
+
+.textInput {
+    border: none;
+    outline: none;
+    padding: .5rem 2rem .5rem calc(.5rem + var(--search-icon-width) + var(--icon-margin));
+    color: var(--dark-grey);
+    border-radius: 1000px;
+}
+
+.outlined {
+    border: 1px solid var(--dark-grey);
+}
+
+.inputIcon {
+    width: var(--search-icon-width);
+    height: 100%;
+    position: absolute;
+    left: var(--icon-margin);
+    top: 0;
+    opacity: .5;
+
+    &>path {
+        fill: black;
+    }
+}
+
+.clearButton {
+    width: calc(.7 * var(--search-icon-width));
+    height: 100%;
+    position: absolute;
+    right: var(--icon-margin);
+    top: 0;
+    opacity: .3;
+    cursor: pointer;
+
+    &:hover {
+        opacity: .5;
+    }
+
+    &:active {
+        opacity: .6;
+    }
+}

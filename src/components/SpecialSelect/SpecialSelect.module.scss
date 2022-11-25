@@ -1,0 +1,21 @@
+.specialSelectContainer {
+    position: relative;
+    display: inline-block;
+}
+
+.specialSelect {
+    background: white;
+    outline: none;
+    border: 1px solid var(--purple);
+    border-radius: 3px;
+    color: var(--purple);
+    -ms-appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    padding-right: 1.3rem;
+    background-image: url('./sort.svg');
+    background-repeat: no-repeat;
+    background-position-x: calc(100% - 5px);
+    background-position-y: 50%;
+}

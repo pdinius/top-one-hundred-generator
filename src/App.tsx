@@ -1,28 +1,30 @@
-import React, { FC, useEffect, useState, useTransition } from 'react';
+import React, { FC, useState } from 'react';
 import './App.scss';
-import { collection } from './adapters/BggApiAdapter';
-import LoadingAnimation from './components/LoadingAnimation/LoadingAnimation';
+import { Route, Routes, Navigate } from 'react-router-dom';
+import Header from './components/Header/Header';
+import RankGames from './components/RankGames/RankGames';
+import ChooseGames from './components/ChooseGames/ChooseGames';
 
 const App: FC = () => {
-  const [data, setData] = useState<any>(false);
-  const [loading, setLoading] = useState(true);
+  const [totalSelectedGames, setTotalSelectedGames] = useState(0);
+  const [username, setUsername] = useState('');
 
-  useEffect(() => {
-    // collection('phildinius').then((d) => {
-    //   setData(d);
-    // }).catch(e => {
-    //   setData(e.message);
-    // }).finally(() => {
-    //   setLoading(false);
-    // })
-  }, [])
-
-  return (
+  return (<>
+      <Header totalSelectedGames={totalSelectedGames} setUsername={setUsername} username={username}></Header>
       <div className="App">
-        {/* {loading ? <LoadingAnimation></LoadingAnimation> : data.map((g: any) => <img src={g.thumbnail} alt={g.name} title={g.name} />)} */}
-        <LoadingAnimation></LoadingAnimation>
+        <Routes>
+          <Route
+            path='/'
+            element={<Navigate to="/choose" replace />} />
+          <Route
+            path='/choose/:username/:page'
+            element={<ChooseGames setTotalSelectedGames={setTotalSelectedGames} />}/>
+          <Route
+            path='/rank/:username'
+            element={<RankGames />} />
+        </Routes>
       </div>
-  );
+    </>);
 }
 
 export default App;

@@ -1,0 +1,57 @@
+.header {
+    position: fixed;
+    width: 100%;
+    padding: 1rem 3rem;
+    background: var(--purple);
+    color: var(--light-grey);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 999;
+}
+
+.inputLabel {
+    padding-bottom: .2rem;
+}
+
+.pageLink {
+    border: none;
+    outline: none;
+}
+
+.pageLink {
+    background: transparent;
+    border: 1px solid var(--light-grey);
+    color: var(--light-grey);
+    padding: .3rem .8rem;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+        background: rgb(255 255 255 / .1);
+    }
+
+    &:active {
+        background: rgb(255 255 255 / .2);
+    }
+}
+
+.pageInfo {
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+}
+
+.selectedGames {
+    color: var(--purple);
+    background: var(--light-grey);
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;;
+    align-items: center;
+    border-radius: 50%;
+    padding-bottom: .1rem;
+}

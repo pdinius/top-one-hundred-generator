@@ -1,5 +1,3 @@
-import dayjs from 'dayjs';
-
 type Cache = {
     [key: string]: Array<any>;
 }
@@ -13,7 +11,7 @@ type Status = {
     wanttobuy: boolean;
     wishlist: boolean;
     preordered: boolean;
-    last_modified: dayjs.Dayjs;
+    last_modified: Date;
 }
 
 type Stats = {
@@ -32,8 +30,10 @@ type Game = {
     image: string;
     thumbnail: string;
     num_plays: number;
-    status?: Status;
-    stats?: Stats;
+    played: boolean;
+    selected: boolean;
+    status: Status;
+    stats: Stats;
 }
 
 export type {
