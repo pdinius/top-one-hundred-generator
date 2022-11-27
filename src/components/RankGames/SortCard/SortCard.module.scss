@@ -1,0 +1,43 @@
+.sortCardContainer {
+    height: 5rem;
+    width: 25rem;
+    margin: 1rem;
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    background: var(--light-grey);
+    border-radius: 10px;
+    padding: .5rem;
+}
+
+.thumbnailContainer {
+    --image-size: 4rem;
+    height: var(--image-size);
+    width: var(--image-size);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & > img {
+        max-height: var(--image-size);
+        max-width: var(--image-size);
+        border-radius: 5px;
+    }
+}
+
+.sortCardRightSide {
+    padding-bottom: .3rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding-left: 1rem;
+}
+
+.title {
+    color: var(--purple);
+    font-weight: bold;
+}
+
+.year {
+    color: var(--mid-grey);
+}

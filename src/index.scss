@@ -5,9 +5,10 @@
 }
 
 body {
-  --light-grey: rgb(238, 238, 238);
-  --dark-grey: rgb(51, 51, 51);
-  --purple: rgb(102, 77, 114);
+  --light-grey: hsl(0, 0%, 93%);
+  --mid-grey: hsl(0, 0%, 60%);
+  --dark-grey: hsl(0, 0%, 20%);
+  --purple: hsl(281, 19%, 37%);
   height: 100vh;
 }
 

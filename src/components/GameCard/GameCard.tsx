@@ -9,7 +9,7 @@ const GameCard: FC<GameCardProps> = ({ game: { name, selected, thumbnail, stats:
       <img src={thumbnail} alt={name}></img>
     </div>
     <div className={`${styles.gameCard} ${selected ? styles.selected : ''}`}>
-      <span className={styles.titleText}>{truncate(name)}</span>
+      <span className={styles.titleText}>{truncate(name, 50)}</span>
     </div>
   </div>);
 };
