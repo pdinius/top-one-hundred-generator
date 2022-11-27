@@ -36,12 +36,16 @@ const sort = (className: string, onClick?: MouseEventHandler) => (<svg className
     <path d="M137.4 41.4c12.5-12.5 32.8-12.5 45.3 0l128 128c9.2 9.2 11.9 22.9 6.9 34.9s-16.6 19.8-29.6 19.8H32c-12.9 0-24.6-7.8-29.6-19.8s-2.2-25.7 6.9-34.9l128-128zm0 429.3l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9s16.6-19.8 29.6-19.8H288c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128c-12.5 12.5-32.8 12.5-45.3 0z" />
 </svg>);
 
+const user = (className: string, onClick?: MouseEventHandler) => (<svg className={className} onClick={onClick} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+    <path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
+</svg>);
+
 const xmark = (className: string, onClick?: MouseEventHandler) => (<svg className={className} onClick={onClick} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
     <path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z" />
 </svg>);
 
 export const IconSvgs = {
-    barsFilter, barsSort, boxesStacked, calendarDays, clock, ellipsis, list, magnifyingGlass, sort, xmark
+    barsFilter, barsSort, boxesStacked, calendarDays, clock, ellipsis, list, magnifyingGlass, sort, user, xmark
 }
 
 export type IconNames = keyof typeof IconSvgs;

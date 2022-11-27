@@ -14,7 +14,6 @@ const Header: FC<HeaderProps> = ({ totalSelectedGames, setUsername, username }) 
     const user = localStorage.getItem('current_username');
     if (!user) return;
     setUsername(user);
-    if (!/\d(?=$|\?)/.test(location.pathname)) navigate(`/choose/${user}/1`);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -47,7 +46,7 @@ const Header: FC<HeaderProps> = ({ totalSelectedGames, setUsername, username }) 
 
   return (<div className={styles.header}>
     <span className={styles.inputLabel}>username:</span>
-    <InputWithIcon icon='magnifyingGlass' refObj={usernameInput} submitFn={submitUsernameForm} />
+    <InputWithIcon icon='user' refObj={usernameInput} submitFn={submitUsernameForm} />
     <button className={styles.pageLink} onClick={() => switchTo('choose')}>choose games</button>
     <button className={styles.pageLink} onClick={() => switchTo('rank')}>rank games</button>
     <div className={styles.pageInfo}>

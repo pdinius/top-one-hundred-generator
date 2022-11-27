@@ -10,21 +10,21 @@ const App: FC = () => {
   const [username, setUsername] = useState('');
 
   return (<>
-      <Header totalSelectedGames={totalSelectedGames} setUsername={setUsername} username={username}></Header>
-      <div className="App">
-        <Routes>
-          <Route
-            path='/'
-            element={<Navigate to="/choose" replace />} />
-          <Route
-            path='/choose/:username/:page'
-            element={<ChooseGames setTotalSelectedGames={setTotalSelectedGames} />}/>
-          <Route
-            path='/rank/:username'
-            element={<RankGames />} />
-        </Routes>
-      </div>
-    </>);
+    <Header totalSelectedGames={totalSelectedGames} setUsername={setUsername} username={username}></Header>
+    <div className="App">
+      <Routes>
+        <Route
+          path='/'
+          element={<Navigate to="/choose" replace />} />
+        <Route
+          path='/choose/:username/:page'
+          element={<ChooseGames setTotalSelectedGames={setTotalSelectedGames} />} />
+        <Route
+          path='/rank/:username'
+          element={<RankGames />} />
+      </Routes>
+    </div>
+  </>);
 }
 
 export default App;
