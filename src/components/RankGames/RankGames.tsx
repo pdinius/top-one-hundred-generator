@@ -6,6 +6,8 @@ import { shuffle } from "../../utils/utility-functions";
 import { RankGamesProps } from "./RankGames.props";
 import SortCard from "./SortCard/SortCard";
 import LoadingAnimation from "../LoadingAnimation/LoadingAnimation";
+import RankGamesOptions from "./RankGamesOptions/RankGamesOptions";
+import PivotCard from "./PivotCard/PivotCard";
 
 const RankGames: FC<RankGamesProps> = () => {
   const params = useParams();
@@ -24,17 +26,21 @@ const RankGames: FC<RankGamesProps> = () => {
       setSelected(gamesList);
       setPivot(gamesList[0]);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className={styles.rankGamesContainer}>
-      <div className={styles.lesserGames}></div>
-      <div className={styles.pivotGame}>
-        { pivot === undefined
-        ? <LoadingAnimation />
-        : <SortCard game={pivot} /> }
+      <RankGamesOptions />
+      <div className={styles.rankGamesMainArea}>
+        <div className={styles.lesserGames}></div>
+        <div className={styles.pivotGame}>
+          {pivot === undefined
+            ? <LoadingAnimation />
+            : <PivotCard game={pivot} />}
+        </div>
+        <div className={styles.greaterGames}></div>
       </div>
-      <div className={styles.greaterGames}></div>
     </div>
   );
 };

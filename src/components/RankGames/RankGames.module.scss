@@ -1,4 +1,10 @@
 .rankGamesContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.rankGamesMainArea {
     width: 100vw;
+    flex-grow: 1;
     display: flex;
 }

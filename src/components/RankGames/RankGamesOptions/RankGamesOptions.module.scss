@@ -1,0 +1,16 @@
+.rankGameOptions {
+    width: 100%;
+    padding: 1rem 3rem;
+    border-bottom: 1px dashed var(--dark-grey);
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+}
+
+.sortIcon, .filterIcon {
+    height: 1rem;
+
+    &> path {
+        fill: var(--purple);
+    }
+}
