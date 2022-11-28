@@ -3,15 +3,18 @@
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0px 5px 10px rgb(0 0 0 / .4);
+    border: 1px solid hsl(0 0 75);
 }
 
 .imageContainer {
     --image-size: 15rem;
     --image-padding: 1rem;
     --image-radius: 5px;
-    width: var(--image-size);
     height: var(--image-size);
     padding: var(--image-padding);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     & .imageBackground {
         width: calc(var(--image-size) - 2 * var(--image-padding));
@@ -19,7 +22,10 @@
         padding: calc(.5 * var(--image-padding));
         border-radius: calc(1.5 * var(--image-radius));
         background: white;
-        border: 1px solid var(--mid-grey);
+        border: 1px solid hsl(0 0 75);
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         &>img {
             max-width: calc(var(--image-size) - 3 * var(--image-padding));
@@ -29,6 +35,22 @@
     }
 }
 
-.gameImage {
-    border-radius: 5px;
+.gameStats {
+    border-top: 1px dashed var(--mid-grey);
+    padding: 1rem;
+    text-align: Center;
+}
+
+.gameName {
+    color: var(--purple);
+}
+
+.gameYear {
+    color: var(--mid-grey);
+    display: inline-block;
+    margin-top: .5rem;
+    padding: .1rem 1rem .3rem;
+    background: white;
+    border: 1px solid hsl(0 0 75);
+    border-radius: 9999px;
 }
