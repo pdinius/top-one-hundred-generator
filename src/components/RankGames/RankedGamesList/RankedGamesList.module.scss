@@ -1,3 +1,31 @@
 .gameListContainer {
-    margin-bottom: .5rem;
+    margin-block: .5rem;
+}
+
+.exportButton {
+    position: relative;
+    width: 100%;
+    color: var(--purple);
+    background: var(--light-grey);
+    outline: none;
+    border: none;
+    border: 1px solid hsl(0 0 80);
+    border-radius: 5px;
+    padding-block: .2rem .3rem;
+    font-size: large;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.exportButton:hover {
+    background: hsl(0 0 90);
+}
+
+.exportButton:active::after {
+    content: "copied to clipboard!";
+    position: absolute;
+    inset: 0;
+    background: hsl(0 0 90);
+    padding-block: .2rem .3rem;
+    border-radius: 5px;
 }
