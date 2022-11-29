@@ -104,18 +104,18 @@ const RankGames: FC<RankGamesProps> = () => {
   };
 
   const updatePivot = () => {
-    if (!currentSortGroup) return;
-    if (currentSortGroup.lesser.length || currentSortGroup.greater.length) return;
+    if (!currentSortGroup || currentSortGroup.lesser.length || currentSortGroup.greater.length) return;
 
-    shuffle(currentSortGroup.gamesToCompare.concat(currentSortGroup.pivot));
+    let newGameList = shuffle(currentSortGroup.gamesToCompare.concat(currentSortGroup.pivot, currentSortGroup.currentSortees));
     setCurrentSortGroup({
-      ...currentSortGroup,
-      pivot: currentSortGroup.gamesToCompare[0],
-      gamesToCompare: currentSortGroup.gamesToCompare.slice(9),
-      currentSortees: currentSortGroup.gamesToCompare.slice(1, 9)
+      pivot: newGameList[0],
+      gamesToCompare: newGameList.slice(9),
+      currentSortees: newGameList.slice(1, 9),
+      lesser: [],
+      greater: []
     })
     setColumns({
-      "lesser-games": currentSortGroup.gamesToCompare.slice(1, 9),
+      "lesser-games": newGameList.slice(1, 9),
       "greater-games": []
     })
   }
