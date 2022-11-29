@@ -19,14 +19,10 @@ import Icon from "../Icon/Icon";
 import { Columns, SortGroup } from "./RankGames.interfaces";
 import RankedGamesList from "./RankedGamesList/RankedGamesList";
 
-const totalGames = (arr: Array<SortGroup>) => {
-  return arr.length + arr.reduce((a,b) => {
-    return a
-      + b.currentSortees.length
-      + b.gamesToCompare.length
-      + b.lesser.length
-      + b.greater.length;
-  }, 0)
+const totalGamesList = (arr: Array<SortGroup>) => {
+  return arr.reduce((a,b) => {
+    return a.concat(...Object.values(b));
+  }, [] as Array<Game>).map(g => g.name);
 }
 
 const RankGames: FC<RankGamesProps> = () => {
@@ -51,8 +47,9 @@ const RankGames: FC<RankGamesProps> = () => {
     const games: Array<Game> = JSON.parse(currUsernamesGames).filter((g: Game) => g.selected);
     let currentLists = localStorage.getItem(`${username}_sorted`) || '[]';
     let loaded: Array<SortGroup> = JSON.parse(currentLists);
+    let gameNames = totalGamesList(loaded);
 
-    if (!loaded.length || totalGames(loaded) !== games.length) {
+    if (!loaded.length || games.some(g => !gameNames.includes(g.name))) {
       let selectedGames = shuffle(games);
       loaded = [
         {
@@ -188,7 +185,6 @@ const RankGames: FC<RankGamesProps> = () => {
           "greater-games": []
         });
       } else {
-        console.log(totalGames(updatedSortGroups));
         setFinished(true);
       }
     }
