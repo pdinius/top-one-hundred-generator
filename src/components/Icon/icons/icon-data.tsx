@@ -44,6 +44,10 @@ const magnifyingGlass = (className: string, onClick?: MouseEventHandler) => (<sv
 <path d="M504.1 471l-134-134C399.1 301.5 415.1 256.8 415.1 208c0-114.9-93.13-208-208-208S-.0002 93.13-.0002 208S93.12 416 207.1 416c48.79 0 93.55-16.91 129-45.04l134 134C475.7 509.7 481.9 512 488 512s12.28-2.344 16.97-7.031C514.3 495.6 514.3 480.4 504.1 471zM48 208c0-88.22 71.78-160 160-160s160 71.78 160 160s-71.78 160-160 160S48 296.2 48 208z"/>
 </svg>);
 
+const rankingStar = (className: string, onClick?: MouseEventHandler) => (<svg className={className} onClick={onClick} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+<path d="M353.8 54.1L330.2 6.3c-3.9-8.3-16.1-8.6-20.4 0L286.2 54.1l-52.3 7.5c-9.3 1.4-13.3 12.9-6.4 19.8l38 37-9 52.1c-1.4 9.3 8.2 16.5 16.8 12.2l46.9-24.8 46.6 24.4c8.6 4.3 18.3-2.9 16.8-12.2l-9-52.1 38-36.6c6.8-6.8 2.9-18.3-6.4-19.8l-52.3-7.5zM256 256c-17.7 0-32 14.3-32 32V480c0 17.7 14.3 32 32 32H384c17.7 0 32-14.3 32-32V288c0-17.7-14.3-32-32-32H256zM32 320c-17.7 0-32 14.3-32 32V480c0 17.7 14.3 32 32 32H160c17.7 0 32-14.3 32-32V352c0-17.7-14.3-32-32-32H32zm416 96v64c0 17.7 14.3 32 32 32H608c17.7 0 32-14.3 32-32V416c0-17.7-14.3-32-32-32H480c-17.7 0-32 14.3-32 32z"/>
+</svg>);
+
 const sort = (className: string, onClick?: MouseEventHandler) => (<svg className={className} onClick={onClick} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
 <path d="M137.4 41.4c12.5-12.5 32.8-12.5 45.3 0l128 128c9.2 9.2 11.9 22.9 6.9 34.9s-16.6 19.8-29.6 19.8H32c-12.9 0-24.6-7.8-29.6-19.8s-2.2-25.7 6.9-34.9l128-128zm0 429.3l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9s16.6-19.8 29.6-19.8H288c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128c-12.5 12.5-32.8 12.5-45.3 0z"/>
 </svg>);
@@ -69,7 +73,7 @@ const xmark = (className: string, onClick?: MouseEventHandler) => (<svg classNam
 </svg>);
 
 export const IconSvgs = {
-    barsFilter, barsSort, boxesStacked, calendarDays, check, circleCaretRight, clock, ellipsis, lessThan, list, magnifyingGlass, sort, sparkles, thumbsDown, thumbsUp, user, xmark
+    barsFilter, barsSort, boxesStacked, calendarDays, check, circleCaretRight, clock, ellipsis, lessThan, list, magnifyingGlass, rankingStar, sort, sparkles, thumbsDown, thumbsUp, user, xmark
 }
 
 export type IconNames = keyof typeof IconSvgs;
