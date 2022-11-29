@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useRef } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import InputWithIcon from '../InputWithIcon/InputWithIcon';
 import styles from './Header.module.scss';
 import { HeaderProps } from './Header.props';

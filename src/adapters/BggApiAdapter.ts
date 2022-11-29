@@ -1,4 +1,4 @@
-import { Game, Status, Stats } from '../interfaces/BggTypes';
+import { Game } from '../interfaces/BggTypes';
 import bggApiToJson from 'bgg-api-to-json';
 
 interface AdapterOptions {

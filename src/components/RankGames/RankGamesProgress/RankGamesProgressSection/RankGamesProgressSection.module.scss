@@ -1,0 +1,18 @@
+.progressContainer {
+    display: flex;
+    gap: 2px;
+}
+
+.progressSection {
+    height: 1rem;
+    border-radius: 2px;
+    background: var(--mid-grey);
+}
+
+.mainSection {
+    background: var(--green);
+}
+
+.sideSection {
+    background: var(--grey-green);
+}

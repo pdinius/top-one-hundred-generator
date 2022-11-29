@@ -6,7 +6,7 @@ import { shuffle } from "../../utils/utility-functions";
 import { RankGamesProps } from "./RankGames.props";
 import SortCard from "./SortCard/SortCard";
 import LoadingAnimation from "../LoadingAnimation/LoadingAnimation";
-import RankGamesOptions from "./RankGamesOptions/RankGamesOptions";
+import RankGamesProgress from "./RankGamesProgress/RankGamesProgress";
 import PivotCard from "./PivotCard/PivotCard";
 import {
   DragDropContext,
@@ -15,37 +15,61 @@ import {
   DroppableStateSnapshot,
   DropResult,
 } from "@hello-pangea/dnd";
-
-interface Columns {
-  "lesser-games": Array<Game>;
-  "greater-games": Array<Game>;
-}
+import Icon from "../Icon/Icon";
+import { Columns, SortGroup } from "./RankGames.interfaces";
+import RankedGamesList from "./RankedGamesList/RankedGamesList";
 
 const RankGames: FC<RankGamesProps> = () => {
   const params = useParams();
 
-  const [selected, setSelected] = useState<Array<Game>>([]);
-  const [pivot, setPivot] = useState<Game>();
+  const [sortGroupID, setSortGroupID] = useState(0);
+  const [sortGroups, setSortGroups] = useState<Array<SortGroup>>([]);
+  const [currentSortGroup, setCurrentSortGroup] = useState<SortGroup>();
   const [columns, setColumns] = useState<Columns>({
     "lesser-games": [],
     "greater-games": [],
   });
+  const [finished, setFinished] = useState(false);
 
   useEffect(() => {
     let { username } = params;
     if (!username) return;
 
-    const games = localStorage.getItem(username);
-    if (games) {
-      let gamesList = JSON.parse(games).filter((g: Game) => g.selected);
-      shuffle(gamesList);
-      setSelected(gamesList);
-      setColumns({
-        "lesser-games": gamesList.slice(1, 9),
-        "greater-games": [],
-      });
-      setPivot(gamesList[0]);
+    localStorage.removeItem(`${username}_sorted`);
+    let currentLists = localStorage.getItem(`${username}_sorted`);
+    let loaded: Array<SortGroup>;
+
+    if (!currentLists) {
+      const games = localStorage.getItem(username);
+      if (!games) return;
+      let selectedGames = shuffle(JSON.parse(games).filter((g: Game) => g.selected));
+      loaded = [
+        {
+          pivot: selectedGames[0],
+          gamesToCompare: selectedGames.slice(9),
+          lesser: [],
+          greater: [],
+          currentSortees: selectedGames.slice(1, 9)
+        }
+      ];
+    } else {
+      loaded = JSON.parse(currentLists);
     }
+    setSortGroups(loaded);
+
+    let currentGroupIndex = Object.values(loaded).findIndex(sg => sg.gamesToCompare.length && (sg.lesser.length || sg.greater.length));
+    if (currentGroupIndex === -1) currentGroupIndex = Object.values(loaded).findIndex(sg => sg.gamesToCompare.length);
+    if (currentGroupIndex === -1) {
+      setFinished(true);
+      return;
+    };
+
+    setColumns({
+      "lesser-games": loaded[currentGroupIndex].currentSortees,
+      "greater-games": []
+    })
+    setCurrentSortGroup(loaded[currentGroupIndex]);
+    setSortGroupID(currentGroupIndex);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -79,64 +103,163 @@ const RankGames: FC<RankGamesProps> = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(columns)
-  }, [columns])
+  const updatePivot = () => {
+    if (!currentSortGroup) return;
+    if (currentSortGroup.lesser.length || currentSortGroup.greater.length) return;
 
-  return (
-    <div className={styles.rankGamesContainer}>
-      <RankGamesOptions />
+    shuffle(currentSortGroup.gamesToCompare.concat(currentSortGroup.pivot));
+    setCurrentSortGroup({
+      ...currentSortGroup,
+      pivot: currentSortGroup.gamesToCompare[0],
+      gamesToCompare: currentSortGroup.gamesToCompare.slice(9),
+      currentSortees: currentSortGroup.gamesToCompare.slice(1, 9)
+    })
+    setColumns({
+      "lesser-games": currentSortGroup.gamesToCompare.slice(1, 9),
+      "greater-games": []
+    })
+  }
+
+  const nextGroup = () => {
+    if (!currentSortGroup) return;
+    let updatedSortGroup = {
+      ...currentSortGroup,
+      lesser: currentSortGroup.lesser.concat(columns['lesser-games']),
+      greater: currentSortGroup.greater.concat(columns['greater-games']),
+      currentSortees: currentSortGroup.gamesToCompare.slice(0, 8),
+      gamesToCompare: currentSortGroup.gamesToCompare.slice(8)
+    }
+
+    let updatedSortGroups: Array<SortGroup>;
+
+    if (updatedSortGroup.currentSortees.length) {
+      // Get 8 new games to compare
+      setCurrentSortGroup(updatedSortGroup);
+      setColumns({
+        "lesser-games": currentSortGroup.gamesToCompare.slice(0, 8),
+        "greater-games": []
+      })
+
+      updatedSortGroups = sortGroups.slice();
+      updatedSortGroups[sortGroupID] = updatedSortGroup;
+      setSortGroups(updatedSortGroups);
+    } else {
+      // New pivot group altogether
+      updatedSortGroups = sortGroups.slice();
+      shuffle(updatedSortGroup.lesser);
+      shuffle(updatedSortGroup.greater);
+
+      updatedSortGroups.splice(sortGroupID, 1, {
+        pivot: updatedSortGroup.lesser[0],
+        currentSortees: updatedSortGroup.lesser.slice(1, 9),
+        gamesToCompare: updatedSortGroup.lesser.slice(9),
+        lesser: [],
+        greater: []
+      }, {
+        ...updatedSortGroup,
+        lesser: [],
+        greater: []
+      }, {
+        pivot: updatedSortGroup.greater[0],
+        currentSortees: updatedSortGroup.greater.slice(1, 9),
+        gamesToCompare: updatedSortGroup.greater.slice(9),
+        lesser: [],
+        greater: []
+      });
+      updatedSortGroups = updatedSortGroups.filter(g => g.pivot);
+
+      let nextGroupIndex = updatedSortGroups.findIndex(sg => sg.currentSortees.length);
+      setSortGroupID(nextGroupIndex);
+      setSortGroups(updatedSortGroups);
+
+      if (nextGroupIndex !== -1) {
+        setCurrentSortGroup(updatedSortGroups[nextGroupIndex]);
+        setColumns({
+          "lesser-games": updatedSortGroups[nextGroupIndex].currentSortees,
+          "greater-games": []
+        });
+      } else {
+        setFinished(true);
+      }
+    }
+
+    const { username } = params;
+    if (username) {
+      console.log(`Updating data for ${username}.`);
+      localStorage.setItem(`${username}_sorted`, JSON.stringify(updatedSortGroups));
+    }
+  }
+
+  return finished
+    ? <RankedGamesList games={sortGroups} />
+    : <div className={styles.rankGamesContainer}>
+      <RankGamesProgress sortGroups={sortGroups} currentIndex={sortGroupID} />
       <div className={styles.rankGamesMainArea}>
         <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable key="lesser-games" droppableId="lesser-games">
-            {(
-              provided: DroppableProvided,
-              snapshot: DroppableStateSnapshot
-            ) => {
-              return (
-                <div
-                  className={styles.lesserGames}
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                >
-                  {columns["lesser-games"].map((s, i) => (
-                    <SortCard key={s.name} game={s} index={i} />
-                  ))}
-                  {provided.placeholder}
-                </div>
-              );
-            }}
-          </Droppable>
+          {/* lesser games */}
+          <div className={styles.droppableContainerLeft}>
+            <span className={styles.columnTitle}>Worse Games <Icon className={styles.columnTitleIcon} name='thumbsDown' /></span>
+            <Droppable key="lesser-games" droppableId="lesser-games">
+              {(
+                provided: DroppableProvided,
+                snapshot: DroppableStateSnapshot
+              ) => {
+                return (
+                  <div
+                    className={styles.lesserGames}
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                  >
+                    {columns['lesser-games'].map((s, i) => (
+                      <SortCard key={s.name} game={s} index={i} />
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                );
+              }}
+            </Droppable>
+          </div>
+          {/* pivot game */}
           <div className={styles.pivotGame}>
-            {pivot === undefined ? (
+            {currentSortGroup?.pivot === undefined ? (
               <LoadingAnimation />
             ) : (
-              <PivotCard game={pivot} />
+              <>
+                <button onClick={nextGroup}>Next Group <Icon name="circleCaretRight" className={styles.buttonIcon} /></button>
+                <PivotCard game={currentSortGroup.pivot} />
+                {currentSortGroup?.greater.length || currentSortGroup?.lesser.length
+                  ? <></>
+                  : <button onClick={updatePivot}>New Pivot <Icon name="sparkles" className={styles.buttonIcon} /></button>}
+              </>
             )}
           </div>
-          <Droppable key="greater-games" droppableId="greater-games">
-            {(
-              provided: DroppableProvided,
-              snapshot: DroppableStateSnapshot
-            ) => {
-              return (
-                <div
-                  className={styles.greaterGames}
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                >
-                  {columns["greater-games"].map((s, i) => (
-                    <SortCard key={s.name} game={s} index={i} />
-                  ))}
-                  {provided.placeholder}
-                </div>
-              );
-            }}
-          </Droppable>
+          {/* greater games */}
+          <div className={styles.droppableContainerRight}>
+            <span className={styles.columnTitle}>Better Games <Icon className={styles.columnTitleIcon} name='thumbsUp' /></span>
+            <Droppable key="greater-games" droppableId="greater-games">
+              {(
+                provided: DroppableProvided,
+                snapshot: DroppableStateSnapshot
+              ) => {
+                return (
+                  <div
+                    className={styles.greaterGames}
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                  >
+                    {columns['greater-games'].map((s, i) => (
+                      <SortCard key={s.name} game={s} index={i} />
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                );
+              }}
+            </Droppable>
+          </div>
+
         </DragDropContext>
       </div>
-    </div>
-  );
+    </div>;
 };
 
 export default RankGames;

@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import styles from './Icon.module.scss';
 import { IconProps } from './Icon.props';
 import { IconSvgs } from './icons/icon-data';
 

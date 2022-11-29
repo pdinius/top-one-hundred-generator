@@ -4,7 +4,7 @@ import { SpecialCheckboxProps } from './SpecialCheckbox.props';
 
 const SpecialCheckbox: FC<SpecialCheckboxProps> = ({ setter, labelText }) => {
   const checkboxRef = useRef<HTMLInputElement>(null);
-  
+
   const updateSetter = (e: React.MouseEvent<HTMLInputElement>) => {
     setter(Boolean(checkboxRef.current!.value));
   }

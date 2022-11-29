@@ -10,12 +10,28 @@
     justify-content: center;
 }
 
-.lesserGames, .greaterGames {
+.droppableContainerLeft, .droppableContainerRight {
     flex-grow: 1;
     flex-basis: 0;
     display: flex;
     flex-direction: column;
+}
+
+.droppableContainerLeft {
+    align-items: flex-end;
+}
+
+.droppableContainerRight {
+    align-items: flex-start;
+}
+
+.lesserGames, .greaterGames {
+    display: flex;
+    flex-direction: column;
     gap: 0;
+    width: 25rem;
+    flex-grow: 1;
+    padding-inline: .5rem;
 }
 
 .lesserGames {
@@ -25,5 +41,53 @@
 .pivotGame {
     padding-top: 10vmin;
     padding-inline: 2rem;
-    border-inline: 1px dashed hsl(0 0 75);
+    border-inline: 1px dashed hsl(0 0 80);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+
+    &> button {
+        border: 1px solid hsl(0 0 80);
+        border-radius: 5px;
+        padding: .4rem 1rem .5rem;
+        color: var(--purple);
+        font-weight: bold;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+        cursor: pointer;
+    }
+}
+
+.buttonIcon {
+    width: 1rem;
+
+    &> path {
+        fill: var(--purple);
+    }
+}
+
+.columnTitle {
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+    color: var(--purple);
+    font-size: large;
+    font-weight: bold;
+    background: var(--light-grey);
+    padding: .5rem 1rem;
+    border-radius: 10px;
+    margin: .5rem;
+    margin-bottom: 0;
+
+    &> .columnTitleIcon {
+        width: 1rem;
+        height: 1rem;
+
+        &> path {
+            fill: var(--purple);
+        }
+    }
 }
