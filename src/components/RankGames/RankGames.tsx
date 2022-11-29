@@ -19,6 +19,16 @@ import Icon from "../Icon/Icon";
 import { Columns, SortGroup } from "./RankGames.interfaces";
 import RankedGamesList from "./RankedGamesList/RankedGamesList";
 
+const totalGames = (arr: Array<SortGroup>) => {
+  return arr.length + arr.reduce((a,b) => {
+    return a
+      + b.currentSortees.length
+      + b.gamesToCompare.length
+      + b.lesser.length
+      + b.greater.length;
+  }, 0)
+}
+
 const RankGames: FC<RankGamesProps> = () => {
   const params = useParams();
 
@@ -34,15 +44,16 @@ const RankGames: FC<RankGamesProps> = () => {
   useEffect(() => {
     let { username } = params;
     if (!username) return;
+    setFinished(false);
 
-    localStorage.removeItem(`${username}_sorted`);
-    let currentLists = localStorage.getItem(`${username}_sorted`);
-    let loaded: Array<SortGroup>;
+    const currUsernamesGames = localStorage.getItem(username);
+    if (!currUsernamesGames) return;
+    const games: Array<Game> = JSON.parse(currUsernamesGames).filter((g: Game) => g.selected);
+    let currentLists = localStorage.getItem(`${username}_sorted`) || '[]';
+    let loaded: Array<SortGroup> = JSON.parse(currentLists);
 
-    if (!currentLists) {
-      const games = localStorage.getItem(username);
-      if (!games) return;
-      let selectedGames = shuffle(JSON.parse(games).filter((g: Game) => g.selected));
+    if (!loaded.length || totalGames(loaded) !== games.length) {
+      let selectedGames = shuffle(games);
       loaded = [
         {
           pivot: selectedGames[0],
@@ -52,8 +63,6 @@ const RankGames: FC<RankGamesProps> = () => {
           currentSortees: selectedGames.slice(1, 9)
         }
       ];
-    } else {
-      loaded = JSON.parse(currentLists);
     }
     setSortGroups(loaded);
 
@@ -71,7 +80,7 @@ const RankGames: FC<RankGamesProps> = () => {
     setCurrentSortGroup(loaded[currentGroupIndex]);
     setSortGroupID(currentGroupIndex);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [params.username]);
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;
@@ -179,6 +188,7 @@ const RankGames: FC<RankGamesProps> = () => {
           "greater-games": []
         });
       } else {
+        console.log(totalGames(updatedSortGroups));
         setFinished(true);
       }
     }

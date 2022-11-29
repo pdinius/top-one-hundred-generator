@@ -1,1 +1,20 @@
-.RankedGamesListItem {}
+.rankedGamesListItemContainer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.rankContainer {
+    width: 5rem;
+    display: flex;
+    justify-content: flex-end;
+    color: var(--purple);
+}
+
+.rank {
+    background: var(--light-grey);
+    padding: .5rem 1rem .7rem;
+    font-size: large;
+    font-weight: bold;
+    border-radius: 9999px;
+}
