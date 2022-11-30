@@ -7,3 +7,15 @@
     align-items: center;
     gap: 4px;
 }
+
+.rankGamesIcon {
+    height: 1rem;
+
+    &> path {
+        fill: var(--purple);
+    }
+}
+
+.colonIcon {
+    padding-inline: .5rem;
+}

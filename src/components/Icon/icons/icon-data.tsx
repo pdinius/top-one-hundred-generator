@@ -1,5 +1,9 @@
 import { MouseEventHandler } from "react";
 
+const award = (className: string, onClick?: MouseEventHandler) => (<svg className={className} onClick={onClick} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+<path d="M173.8 5.5c11-7.3 25.4-7.3 36.4 0L228 17.2c6 3.9 13 5.8 20.1 5.4l21.3-1.3c13.2-.8 25.6 6.4 31.5 18.2l9.6 19.1c3.2 6.4 8.4 11.5 14.7 14.7L344.5 83c11.8 5.9 19 18.3 18.2 31.5l-1.3 21.3c-.4 7.1 1.5 14.2 5.4 20.1l11.8 17.8c7.3 11 7.3 25.4 0 36.4L366.8 228c-3.9 6-5.8 13-5.4 20.1l1.3 21.3c.8 13.2-6.4 25.6-18.2 31.5l-19.1 9.6c-6.4 3.2-11.5 8.4-14.7 14.7L301 344.5c-5.9 11.8-18.3 19-31.5 18.2l-21.3-1.3c-7.1-.4-14.2 1.5-20.1 5.4l-17.8 11.8c-11 7.3-25.4 7.3-36.4 0L156 366.8c-6-3.9-13-5.8-20.1-5.4l-21.3 1.3c-13.2 .8-25.6-6.4-31.5-18.2l-9.6-19.1c-3.2-6.4-8.4-11.5-14.7-14.7L39.5 301c-11.8-5.9-19-18.3-18.2-31.5l1.3-21.3c.4-7.1-1.5-14.2-5.4-20.1L5.5 210.2c-7.3-11-7.3-25.4 0-36.4L17.2 156c3.9-6 5.8-13 5.4-20.1l-1.3-21.3c-.8-13.2 6.4-25.6 18.2-31.5l19.1-9.6C65 70.2 70.2 65 73.4 58.6L83 39.5c5.9-11.8 18.3-19 31.5-18.2l21.3 1.3c7.1 .4 14.2-1.5 20.1-5.4L173.8 5.5zM272 192c0-44.2-35.8-80-80-80s-80 35.8-80 80s35.8 80 80 80s80-35.8 80-80zM1.3 441.8L44.4 339.3c.2 .1 .3 .2 .4 .4l9.6 19.1c11.7 23.2 36 37.3 62 35.8l21.3-1.3c.2 0 .5 0 .7 .2l17.8 11.8c5.1 3.3 10.5 5.9 16.1 7.7l-37.6 89.3c-2.3 5.5-7.4 9.2-13.3 9.7s-11.6-2.2-14.8-7.2L74.4 455.5l-56.1 8.3c-5.7 .8-11.4-1.5-15-6s-4.3-10.7-2.1-16zm248 60.4L211.7 413c5.6-1.8 11-4.3 16.1-7.7l17.8-11.8c.2-.1 .4-.2 .7-.2l21.3 1.3c26 1.5 50.3-12.6 62-35.8l9.6-19.1c.1-.2 .2-.3 .4-.4l43.2 102.5c2.2 5.3 1.4 11.4-2.1 16s-9.3 6.9-15 6l-56.1-8.3-32.2 49.2c-3.2 5-8.9 7.7-14.8 7.2s-11-4.3-13.3-9.7z"/>
+</svg>);
+
 const barsFilter = (className: string, onClick?: MouseEventHandler) => (<svg className={className} onClick={onClick} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
 <path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM64 256c0-17.7 14.3-32 32-32H352c17.7 0 32 14.3 32 32s-14.3 32-32 32H96c-17.7 0-32-14.3-32-32zM288 416c0 17.7-14.3 32-32 32H192c-17.7 0-32-14.3-32-32s14.3-32 32-32h64c17.7 0 32 14.3 32 32z"/>
 </svg>);
@@ -28,6 +32,10 @@ const clock = (className: string, onClick?: MouseEventHandler) => (<svg classNam
 <path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/>
 </svg>);
 
+const colon = (className: string, onClick?: MouseEventHandler) => (<svg className={className} onClick={onClick} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512">
+<path d="M64 192c35.3 0 64-28.7 64-64s-28.7-64-64-64S0 92.7 0 128s28.7 64 64 64zm0 256c35.3 0 64-28.7 64-64s-28.7-64-64-64s-64 28.7-64 64s28.7 64 64 64z"/>
+</svg>);
+
 const ellipsis = (className: string, onClick?: MouseEventHandler) => (<svg className={className} onClick={onClick} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
 <path d="M120 256c0 30.9-25.1 56-56 56s-56-25.1-56-56s25.1-56 56-56s56 25.1 56 56zm160 0c0 30.9-25.1 56-56 56s-56-25.1-56-56s25.1-56 56-56s56 25.1 56 56zm104 56c-30.9 0-56-25.1-56-56s25.1-56 56-56s56 25.1 56 56s-25.1 56-56 56z"/>
 </svg>);
@@ -42,6 +50,10 @@ const list = (className: string, onClick?: MouseEventHandler) => (<svg className
 
 const magnifyingGlass = (className: string, onClick?: MouseEventHandler) => (<svg className={className} onClick={onClick} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
 <path d="M504.1 471l-134-134C399.1 301.5 415.1 256.8 415.1 208c0-114.9-93.13-208-208-208S-.0002 93.13-.0002 208S93.12 416 207.1 416c48.79 0 93.55-16.91 129-45.04l134 134C475.7 509.7 481.9 512 488 512s12.28-2.344 16.97-7.031C514.3 495.6 514.3 480.4 504.1 471zM48 208c0-88.22 71.78-160 160-160s160 71.78 160 160s-71.78 160-160 160S48 296.2 48 208z"/>
+</svg>);
+
+const poop = (className: string, onClick?: MouseEventHandler) => (<svg className={className} onClick={onClick} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<path d="M254.4 6.6c3.5-4.3 9-6.5 14.5-5.7C315.8 7.2 352 47.4 352 96c0 11.2-1.9 22-5.5 32H352c35.3 0 64 28.7 64 64c0 19.1-8.4 36.3-21.7 48H408c39.8 0 72 32.2 72 72c0 23.2-11 43.8-28 57c34.1 5.7 60 35.3 60 71c0 39.8-32.2 72-72 72H72c-39.8 0-72-32.2-72-72c0-35.7 25.9-65.3 60-71c-17-13.2-28-33.8-28-57c0-39.8 32.2-72 72-72h13.7C104.4 228.3 96 211.1 96 192c0-35.3 28.7-64 64-64h16.2c44.1-.1 79.8-35.9 79.8-80c0-9.2-1.5-17.9-4.3-26.1c-1.8-5.2-.8-11.1 2.8-15.4z"/>
 </svg>);
 
 const rankingStar = (className: string, onClick?: MouseEventHandler) => (<svg className={className} onClick={onClick} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
@@ -73,7 +85,7 @@ const xmark = (className: string, onClick?: MouseEventHandler) => (<svg classNam
 </svg>);
 
 export const IconSvgs = {
-    barsFilter, barsSort, boxesStacked, calendarDays, check, circleCaretRight, clock, ellipsis, lessThan, list, magnifyingGlass, rankingStar, sort, sparkles, thumbsDown, thumbsUp, user, xmark
+    award, barsFilter, barsSort, boxesStacked, calendarDays, check, circleCaretRight, clock, colon, ellipsis, lessThan, list, magnifyingGlass, poop, rankingStar, sort, sparkles, thumbsDown, thumbsUp, user, xmark
 }
 
 export type IconNames = keyof typeof IconSvgs;

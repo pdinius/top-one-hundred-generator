@@ -1,10 +1,13 @@
 import React, { FC } from 'react';
+import Icon from '../../Icon/Icon';
 import styles from './RankGamesProgress.module.scss';
 import { RankGamesProgressProps } from './RankGamesProgress.props';
 import RankGamesProgressSection from './RankGamesProgressSection/RankGamesProgressSection';
 
 const RankGamesProgress: FC<RankGamesProgressProps> = ({ sortGroups, currentIndex }) => {
   return <div className={styles.progressContainer}>
+    <Icon className={styles.rankGamesIcon} name='poop' />
+    <Icon className={`${styles.rankGamesIcon} ${styles.colonIcon}`} name='colon' />
     {sortGroups.map((g,i) => {
       let middleWidth = g.gamesToCompare.length + g.currentSortees.length
       return <>
@@ -29,6 +32,8 @@ const RankGamesProgress: FC<RankGamesProgressProps> = ({ sortGroups, currentInde
           : <></>}
       </>;
     })}
+    <Icon className={`${styles.rankGamesIcon} ${styles.colonIcon}`} name='colon' />
+    <Icon className={styles.rankGamesIcon} name='award' />
   </div>;
 }
 
