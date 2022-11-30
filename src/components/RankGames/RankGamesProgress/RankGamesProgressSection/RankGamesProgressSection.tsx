@@ -11,7 +11,10 @@ const RankGamesProgressSection: FC<RankGamesProgressSectionProps> = ({ width, cu
     case 'side':
       classes.push(styles.sideSection);
   }
-  return <div style={{ width: `${width}px` }} className={classes.join(' ')} title={title}></div>
+
+  const content = current === 'main' ? (width - 4) / 2 + 1 : width / 2;
+
+  return <div style={{ width: `${width}px` }} className={classes.join(' ')} title={title}>{width >= 10 ? content : ''}</div>
 };
 
 export default RankGamesProgressSection;

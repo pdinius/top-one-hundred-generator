@@ -18,7 +18,7 @@ const RankGamesProgress: FC<RankGamesProgressProps> = ({ sortGroups, currentInde
         <RankGamesProgressSection
           key={`${i}-b`}
           width={4 + 2 * middleWidth}
-          title={middleWidth ? `${middleWidth} Games` : g.pivot.name}
+          title={middleWidth ? `${middleWidth + 1} Games` : g.pivot.name}
           current={currentIndex === i ? 'main' : undefined} />
         {g.greater.length
           ? <RankGamesProgressSection
