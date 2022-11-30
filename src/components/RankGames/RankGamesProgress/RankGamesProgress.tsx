@@ -12,19 +12,19 @@ const RankGamesProgress: FC<RankGamesProgressProps> = ({ sortGroups, currentInde
           ? <RankGamesProgressSection
               key={`${i}-a`}
               width={2 * g.lesser.length}
-              title={`${g.lesser.length} games`}
+              title={`${g.lesser.length} Games`}
               current={currentIndex === i ? 'side' : undefined} />
           : <></>}
         <RankGamesProgressSection
           key={`${i}-b`}
           width={4 + 2 * middleWidth}
-          title={middleWidth ? String(middleWidth) : g.pivot.name}
+          title={middleWidth ? `${middleWidth} Games` : g.pivot.name}
           current={currentIndex === i ? 'main' : undefined} />
         {g.greater.length
           ? <RankGamesProgressSection
               key={`${i}-c`}
               width={2 * g.greater.length} 
-              title={`${g.greater.length} games`}
+              title={`${g.greater.length} Games`}
               current={currentIndex === i ? 'side' : undefined} />
           : <></>}
       </>;
