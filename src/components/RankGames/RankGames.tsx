@@ -1,13 +1,10 @@
 import React, { FC, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Game } from "../../interfaces/BggTypes";
 import styles from "./RankGames.module.scss";
+import { Game } from "../../interfaces/BggTypes";
+import { Columns, SortGroup } from "./RankGames.interfaces";
 import { shuffle } from "../../utils/utility-functions";
 import { RankGamesProps } from "./RankGames.props";
-import SortCard from "./SortCard/SortCard";
-import LoadingAnimation from "../LoadingAnimation/LoadingAnimation";
-import RankGamesProgress from "./RankGamesProgress/RankGamesProgress";
-import PivotCard from "./PivotCard/PivotCard";
 import {
   DragDropContext,
   Droppable,
@@ -15,12 +12,15 @@ import {
   DroppableStateSnapshot,
   DropResult,
 } from "@hello-pangea/dnd";
+import PivotCard from "./PivotCard/PivotCard";
+import SortCard from "./SortCard/SortCard";
+import LoadingAnimation from "../LoadingAnimation/LoadingAnimation";
+import RankGamesProgress from "./RankGamesProgress/RankGamesProgress";
 import Icon from "../Icon/Icon";
-import { Columns, SortGroup } from "./RankGames.interfaces";
 import RankedGamesList from "./RankedGamesList/RankedGamesList";
 
 const totalGamesList = (arr: Array<SortGroup>) => {
-  return arr.reduce((a,b) => {
+  return arr.reduce((a, b) => {
     return a.concat(...Object.values(b));
   }, [] as Array<Game>).map(g => g.name);
 }
@@ -36,6 +36,12 @@ const RankGames: FC<RankGamesProps> = () => {
     "greater-games": [],
   });
   const [finished, setFinished] = useState(false);
+  const [previousSave, setPreviousSave] = useState<Array<{
+    prevGroupId: number;
+    prevSortGroup: string;
+    prevSortGroups: string;
+    prevColumns: string
+  }>>([]);
 
   useEffect(() => {
     let { username } = params;
@@ -63,9 +69,10 @@ const RankGames: FC<RankGamesProps> = () => {
     }
     setSortGroups(loaded);
 
-    let currentGroupIndex = Object.values(loaded).findIndex(sg => sg.gamesToCompare.length && (sg.lesser.length || sg.greater.length));
-    if (currentGroupIndex === -1) currentGroupIndex = Object.values(loaded).findIndex(sg => sg.gamesToCompare.length);
+    let currentGroupIndex = loaded.findIndex(sg => sg.lesser.length || sg.greater.length);
+    if (currentGroupIndex === -1) currentGroupIndex = Object.values(loaded).findIndex(sg => sg.currentSortees.length);
     if (currentGroupIndex === -1) {
+      console.log('finished')
       setFinished(true);
       return;
     };
@@ -128,6 +135,12 @@ const RankGames: FC<RankGamesProps> = () => {
 
   const nextGroup = () => {
     if (!currentSortGroup) return;
+    setPreviousSave(prev => [...prev, {
+      prevGroupId: sortGroupID,
+      prevColumns: JSON.stringify(columns),
+      prevSortGroup: JSON.stringify(currentSortGroup),
+      prevSortGroups: JSON.stringify(sortGroups)
+    }]);
     let updatedSortGroup = {
       ...currentSortGroup,
       lesser: currentSortGroup.lesser.concat(columns['lesser-games']),
@@ -196,6 +209,18 @@ const RankGames: FC<RankGamesProps> = () => {
     }
   }
 
+  const undoLastAction = () => {
+    if (previousSave.length) {
+      const prevSave = previousSave.pop();
+      if (!prevSave) return;
+      let { prevGroupId, prevSortGroup, prevSortGroups, prevColumns } = prevSave;
+      setSortGroupID(prevGroupId);
+      setCurrentSortGroup(JSON.parse(prevSortGroup) as SortGroup);
+      setSortGroups(JSON.parse(prevSortGroups) as Array<SortGroup>);
+      setColumns(JSON.parse(prevColumns) as Columns);
+    }
+  }
+
   return finished
     ? <RankedGamesList games={sortGroups} />
     : <div className={styles.rankGamesContainer}>
@@ -234,8 +259,11 @@ const RankGames: FC<RankGamesProps> = () => {
                 <button onClick={nextGroup}>Next Group <Icon name="circleCaretRight" className={styles.buttonIcon} /></button>
                 <PivotCard game={currentSortGroup.pivot} />
                 {currentSortGroup?.greater.length || currentSortGroup?.lesser.length
-                  ? <></>
-                  : <button onClick={updatePivot}>New Pivot <Icon name="sparkles" className={styles.buttonIcon} /></button>}
+                  ? <button onClick={undoLastAction}>Undo <Icon name="backward" className={styles.buttonIcon} /></button>
+                  : <>
+                    <button onClick={updatePivot}>New Pivot <Icon name="sparkles" className={styles.buttonIcon} /></button>
+                    <button disabled={previousSave.length === 0} onClick={undoLastAction}>Undo <Icon name="backward" className={styles.buttonIcon} /></button>
+                  </>}
               </>
             )}
           </div>

@@ -59,6 +59,11 @@
         gap: .5rem;
         cursor: pointer;
     }
+
+    &> button:disabled {
+        filter: grayscale(1);
+        opacity: .5;
+    }
 }
 
 .buttonIcon {
