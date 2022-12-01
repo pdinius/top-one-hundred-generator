@@ -5,7 +5,7 @@ import styles from './RankedGamesList.module.scss';
 import { RankedGamesListProps } from './RankedGamesList.props';
 import RankedGamesListItem from './RankedGamesListItem/RankedGamesListItem';
 
-const RankedGamesList: FC<RankedGamesListProps> = ({ games }) => {
+const RankedGamesList: FC<RankedGamesListProps> = ({ games, resetFn }) => {
   const gameItems: Array<Game> = games.map(g => g.pivot).reverse();
 
   const downloadGameList = () => {
@@ -14,8 +14,19 @@ const RankedGamesList: FC<RankedGamesListProps> = ({ games }) => {
   }
 
   return <div className={styles.gameListContainer}>
-    <button onClick={downloadGameList} className={styles.exportButton}><Icon className={styles.exportIcon} name='rankingStar' />copy rankings to clipboard<Icon className={styles.exportIcon} name='rankingStar' /></button>
-    {gameItems.map((g,i) => <RankedGamesListItem key={g.name} game={g} rank={i+1} />)}
+    <div className={styles.buttonContainer}>
+      <button onClick={downloadGameList} className={styles.exportButton}>
+        copy rankings to clipboard
+        <Icon className={styles.exportIcon} name='rankingStar' />
+      </button>
+      <button onClick={resetFn} className={styles.resetButton}>
+        RESET RATINGS
+        <Icon className={styles.warningIcon} name='triangleExclamation' />
+      </button>
+    </div>
+    <div className={styles.gameItemsContainer}>
+      {gameItems.map((g, i) => <RankedGamesListItem key={g.name} game={g} rank={i + 1} />)}
+    </div>
   </div>;
 };
 

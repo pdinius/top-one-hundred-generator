@@ -1,20 +1,32 @@
 .gameListContainer {
-    margin-block: .5rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.exportButton,
+.resetButton {
+    position: relative;
+    background: var(--light-grey);
+    outline: none;
+    border: 1px solid hsl(0 0 80);
+    padding: .2rem 1rem .3rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: medium;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .exportButton {
-    position: relative;
-    width: 100%;
     color: var(--purple);
-    background: var(--light-grey);
-    outline: none;
-    border: none;
-    border: 1px solid hsl(0 0 80);
-    border-radius: 5px;
-    padding-block: .2rem .3rem;
-    font-size: large;
+}
+
+.resetButton {
+    color: var(--pomegranate);
     font-weight: bold;
-    cursor: pointer;
 }
 
 .exportButton:hover {
@@ -25,16 +37,42 @@
     content: "copied to clipboard!";
     position: absolute;
     inset: 0;
-    background: hsl(0 0 90);
+    background: hsl(0 0 95);
     padding-block: .2rem .3rem;
     border-radius: 5px;
 }
 
-.exportIcon {
+.exportIcon,
+.warningIcon {
     height: 1rem;
-    margin-inline: 1rem;
+    margin-left: 1rem;
+    position: relative;
+}
 
-    &> path {
+.exportIcon {
+    &>path {
         fill: var(--purple);
     }
+}
+
+.warningIcon {
+    top: 1px;
+
+    &>path {
+        fill: var(--pomegranate);
+    }
+}
+
+.buttonContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding-block: 1rem;
+    border-bottom: 1px dashed var(--mid-grey);
+}
+
+.gameItemsContainer {
+    width: 30rem;
+    padding-block: .5rem 1rem;
 }

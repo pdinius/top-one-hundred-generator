@@ -221,8 +221,28 @@ const RankGames: FC<RankGamesProps> = () => {
     }
   }
 
+  const handleStartOver = () => {
+    setSortGroupID(0);
+    let games = shuffle(sortGroups.map(g => g.pivot));
+    let newSortGroup: SortGroup = {
+        pivot: games[0],
+        currentSortees: games.slice(1,9),
+        gamesToCompare: games.slice(9),
+        greater: [],
+        lesser: []
+    }
+    setCurrentSortGroup(newSortGroup);
+    setSortGroups([newSortGroup]);
+    setColumns({
+      "lesser-games": newSortGroup.currentSortees,
+      "greater-games": []
+    })
+    setPreviousSave([]);
+    setFinished(false);
+  }
+
   return finished
-    ? <RankedGamesList games={sortGroups} />
+    ? <RankedGamesList games={sortGroups} resetFn={handleStartOver} />
     : <div className={styles.rankGamesContainer}>
       <RankGamesProgress sortGroups={sortGroups} currentIndex={sortGroupID} />
       <div className={styles.rankGamesMainArea}>
