@@ -49,7 +49,7 @@ const RankGames: FC<RankGamesProps> = () => {
     let loaded: Array<SortGroup> = JSON.parse(currentLists);
     let gameNames = totalGamesList(loaded);
 
-    if (!loaded.length || games.some(g => !gameNames.includes(g.name))) {
+    if (!loaded.length || games.length !== gameNames.length || games.some(g => !gameNames.includes(g.name))) {
       let selectedGames = shuffle(games);
       loaded = [
         {

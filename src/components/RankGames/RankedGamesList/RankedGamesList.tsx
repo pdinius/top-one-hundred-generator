@@ -6,10 +6,10 @@ import { RankedGamesListProps } from './RankedGamesList.props';
 import RankedGamesListItem from './RankedGamesListItem/RankedGamesListItem';
 
 const RankedGamesList: FC<RankedGamesListProps> = ({ games }) => {
-  const gameItems: Array<Game> = games.map(g => g.pivot);
+  const gameItems: Array<Game> = games.map(g => g.pivot).reverse();
 
   const downloadGameList = () => {
-    const gameList = games.map(g => g.pivot.name).join('\n');
+    const gameList = gameItems.map(g => g.name).join('\n');
     navigator.clipboard.writeText(gameList);
   }
 
